@@ -15,6 +15,7 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
+      <FloatingContact />
       <About />
       <Services />
       <WhyChoose />
@@ -24,7 +25,7 @@ export default function Home() {
       <ContactForm />
       <Footer />
       <CustomCursor />
-      <FloatingContact />
+      
     </main>
   );
 }
