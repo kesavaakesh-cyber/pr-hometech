@@ -1,0 +1,512 @@
+@import "tailwindcss";
+
+/* ============================================
+   DESIGN TOKENS — PR Home Tech
+   Glassmorphism identity: deep gradient mesh
+   + frosted glass panels + amber accent
+   ============================================ */
+:root {
+  --bg-deep: #070b16;
+  --bg-mid: #0c1530;
+  --indigo: #1b2a5e;
+  --teal: #0e3b3f;
+  --cream: #f7f5f1;
+  --amber: #ff8a3d;
+  --amber-dark: #e8651a;
+  --amber-light: #ffc08a;
+  --ink: #0c1424;
+  --ink-soft: #5b6a82;
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-bg-light: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-border-light: rgba(20, 30, 50, 0.08);
+  --glass-radius: 22px;
+  --font-display: var(--font-display, "Arial Black", sans-serif);
+  --font-body: var(--font-body, Arial, Helvetica, sans-serif);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   LAYOUT PRIMITIVES
+   ============================================ */
+.section {
+  max-width: 1180px;
+  margin: auto;
+  padding: 110px 24px;
+  position: relative;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber-dark);
+  margin-bottom: 18px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  background: var(--amber);
+}
+
+.eyebrow.on-dark {
+  color: var(--amber-light);
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(255, 138, 61, 0.14);
+  color: var(--amber-dark);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--amber);
+  color: #fff;
+  font-weight: 800;
+  padding: 16px 28px;
+  border-radius: 14px;
+  border: none;
+  box-shadow: 0 10px 28px -8px rgba(255, 138, 61, 0.55);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  background: var(--amber-dark);
+  box-shadow: 0 18px 36px -8px rgba(255, 138, 61, 0.65);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 800;
+  padding: 16px 28px;
+  border-radius: 14px;
+  border: none;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.btn-dark:hover {
+  transform: translateY(-3px);
+  background: #1b2740;
+}
+
+.btn-glass {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  padding: 14px 26px;
+  border-radius: 14px;
+  font-weight: 800;
+  transition: all 0.3s ease;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-3px);
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ============================================
+   GLASS PANEL — signature element
+   Frosted glass card used on light sections
+   ============================================ */
+.glass-panel {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--glass-radius);
+  box-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.6) inset,
+    0 8px 32px -8px rgba(15, 23, 42, 0.12);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.glass-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.5), transparent 40%);
+  pointer-events: none;
+}
+
+.glass-panel:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.7) inset,
+    0 28px 56px -16px rgba(15, 23, 42, 0.22);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Dark variant — used over the navy/gradient hero & dark sections */
+.glass-panel-dark {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.08) inset,
+    0 8px 32px -8px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.glass-panel-dark:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.12) inset,
+    0 24px 48px -16px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   GRADIENT MESH BACKGROUND (Hero + dark sections)
+   ============================================ */
+.mesh-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 138, 61, 0.25), transparent 38%),
+    radial-gradient(circle at 82% 18%, rgba(27, 42, 94, 0.55), transparent 42%),
+    radial-gradient(circle at 50% 85%, rgba(14, 59, 63, 0.5), transparent 45%),
+    linear-gradient(160deg, var(--bg-deep), var(--bg-mid) 70%);
+  pointer-events: none;
+}
+
+/* Frosted noise overlay for texture, kept extremely subtle */
+.mesh-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.04), transparent 60%);
+}
+
+/* ============================================
+   PARALLAX LAYER (Hero floating glass shapes)
+   ============================================ */
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.floating-icon {
+  position: absolute;
+  color: #fff;
+  opacity: 0.14;
+}
+
+/* ============================================
+   STICKY SCROLL PROGRESS BAR
+   ============================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--amber), var(--amber-light));
+  z-index: 100;
+  transform-origin: left;
+}
+
+/* ============================================
+   CUSTOM CURSOR (desktop, fine-pointer only)
+   ============================================ */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--amber);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-hover {
+  transform: scale(1.6);
+  background: rgba(255, 138, 61, 0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.cursor-enabled {
+    cursor: none;
+  }
+}
+
+/* ============================================
+   IMAGE HOVER ZOOM
+   ============================================ */
+.image-hover {
+  overflow: hidden;
+}
+
+.image-hover img {
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.image-hover:hover img {
+  transform: scale(1.07);
+}
+
+/* ============================================
+   PROCESS TIMELINE (glass)
+   ============================================ */
+.process-line {
+  display: grid;
+  gap: 22px;
+  position: relative;
+}
+
+.process-line::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--glass-border-light);
+}
+
+.process-item {
+  position: relative;
+  margin-left: 64px;
+  padding: 26px;
+}
+
+.process-item .process-num {
+  position: absolute;
+  left: -64px;
+  top: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-family: var(--font-display);
+  box-shadow: 0 8px 18px -4px rgba(255, 138, 61, 0.5);
+}
+
+.process-item h3 {
+  font-size: 22px;
+}
+
+.process-item p {
+  margin-top: 8px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+/* ============================================
+   FLOATING STAT CARDS (Hero, glass)
+   ============================================ */
+.floating-card {
+  position: absolute;
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.floating-card b {
+  font-weight: 800;
+  font-family: var(--font-body);
+}
+
+.floating-card p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ============================================
+   FORM CONTROLS
+   ============================================ */
+input,
+select,
+textarea {
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--amber) !important;
+  box-shadow: 0 0 0 4px rgba(255, 138, 61, 0.16);
+}
+
+::selection {
+  background: var(--amber);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--amber-light);
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--amber);
+}
+
+/* ============================================
+   MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 72px;
+  }
+
+  .section {
+    padding: 64px 20px;
+  }
+
+  .btn-primary,
+  .btn-dark,
+  .btn-glass {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .floating-card {
+    display: none;
+  }
+
+  .process-item {
+    margin-left: 54px;
+  }
+
+  .process-item .process-num {
+    left: -54px;
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Glass blur is expensive on low-power mobile GPUs — lighten it */
+  .glass-panel,
+  .glass-panel-dark {
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+  }
+}
